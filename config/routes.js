@@ -9,6 +9,30 @@
  */
 
 module.exports.routes = {
+  'POST /user/create': {
+    controller: 'UserController',
+    action: 'create'
+  },
+  'POST /user/login': {
+    controller:'UserController',
+    action: 'login'
+  },
+  'GET /user/': {
+    controller: 'UserController',
+    action: 'getAll'
+  },
+  'GET /user/check': {
+    controller: 'UserController',
+    action: 'check'
+  },
 
-
-};
+  'POST /role/create': {
+    controller: 'RoleController',
+    action: 'create'
+  },
+  'GET /role/': {
+    controller: 'RoleController',
+    action: 'getAll'
+  }
+}
+;
