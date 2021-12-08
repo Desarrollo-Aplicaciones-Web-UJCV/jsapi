@@ -7,8 +7,17 @@
 
 module.exports = {
   create: async (req, res) => {
+    let isAdmin = await sails.helpers.isUserAdmin(req).tolerate('notAdmin', () =>{
+      return {'error': 'User does not have necesary privileges'}
+    })
+    if(!isAdmin.error){
+    console.log('es admin')
     let createdUser = await User.create(req.body).fetch()
+
     res.send(createdUser)
+    }else{
+      res.json(isAdmin)
+    }
   },
 
   login: async (req, res) => {
@@ -40,15 +49,11 @@ module.exports = {
     })
   },
 
-  check: (req,res) => {
-    res.json({'gg':'gg'})
-  },
-
-
 
   getAll: async (req, res) => {
-    console.log('gotrequest')
-    let users = await User.find({})
-    res.send(users)
+    if(await sails.helpers.isUserAdmin(req)==true){
+      let users = await User.find({})
+      res.send(users)
+    }
   }
 }

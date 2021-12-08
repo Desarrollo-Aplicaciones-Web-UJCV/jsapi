@@ -21,10 +21,6 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'getAll'
   },
-  'GET /user/check': {
-    controller: 'UserController',
-    action: 'check'
-  },
 
   'POST /role/create': {
     controller: 'RoleController',

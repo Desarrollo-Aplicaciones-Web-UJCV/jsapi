@@ -1,4 +1,4 @@
-module.exports = async (req, res, next) => {
+module.exports = async (req, res, proceed) => {
   let token = undefined;
   if(req.headers && req.headers.authorization){
     let parts = req.headers.authorization.split(' ')
@@ -8,9 +8,18 @@ module.exports = async (req, res, next) => {
       if(/^Bearer$/i.test(scheme)){
         token = credentials
       }
-    }else{
-      return res.json(401, {error: 'No valid token provided'})
     }
-    res.json(await sails.helpers.verifyToken(token))
+    let result = await sails.helpers.verifyToken(token).tolerate('badToken', () => {
+    return {'error': 'Malformed token provided'}
+    })
+    if(!result.error){
+      req.options.user = result
+      proceed()
+    }else{
+      return res.json(result)
+    }
+  }else{
+    return res.json(401, {error: 'No valid token provided'})
   }
+
 }

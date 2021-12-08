@@ -21,17 +21,16 @@ module.exports = {
       description: 'All done.',
     },
 
-    error: {
-      description: 'An error has occured'
-    }
-
+    badToken: {
+      description: 'Bad token provided.'
+    },
   },
 
 
   fn: async function (inputs, exits) {
     let jwt = require('jsonwebtoken')
     jwt.verify(inputs.token, sails.config.secret, (error, decoded) => {
-      if(error) return exits.error({error})
+      if(error) throw 'badToken'
       return exits.success(decoded)
     })
   }

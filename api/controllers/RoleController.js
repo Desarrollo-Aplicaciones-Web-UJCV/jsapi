@@ -14,7 +14,5 @@ module.exports = {
     let roles = await Role.find({})
     res.send(roles)
   }
-
-
-};
+}
 
