@@ -6,18 +6,16 @@
  */
 
 module.exports = {
-  tableName:'roles',
+  tableName: 'roles',
   attributes: {
     name: {
       unique: true,
       required: true,
-      type: 'string'
+      type: 'string',
     },
     users: {
       collection: 'User',
-      via: 'role'
-    }
+      via: 'role',
+    },
   },
-
 };
-

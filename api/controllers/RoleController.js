@@ -6,13 +6,12 @@
  */
 
 module.exports = {
-  create: async (req,res) => {
-    let createdRole = await Role.create(req.body).fetch()
-    res.send(createdRole)
+  create: async (req, res) => {
+    let createdRole = await Role.create(req.body).fetch();
+    res.send(createdRole);
   },
   getAll: async (req, res) => {
-    let roles = await Role.find({})
-    res.send(roles)
-  }
-}
-
+    let roles = await Role.find({});
+    res.send(roles);
+  },
+};

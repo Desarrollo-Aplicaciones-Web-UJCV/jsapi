@@ -5,7 +5,7 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
-let bcrypt = require('bcrypt')
+let bcrypt = require('bcrypt');
 
 module.exports = {
   schema: false,
@@ -13,45 +13,49 @@ module.exports = {
   attributes: {
     name: {
       columnName: 'name',
-      required:true,
-      type:'string'
+      required: true,
+      type: 'string',
     },
     username: {
       columnName: 'username',
       required: true,
       unique: true,
-      type: 'string'
+      type: 'string',
     },
     encryptedPassword: {
       columnName: 'encryptedPassword',
-      type: 'string'
+      type: 'string',
     },
     role: {
-      model: 'Role'
+      model: 'Role',
     },
     active: {
       columnName: 'isActive',
       type: 'boolean',
-      defaultsTo: true
-    }
+      defaultsTo: true,
+    },
   },
 
-  customToJSON: function(){
-    return _.omit(this, ['encryptedPassword'])
+  customToJSON: function () {
+    return _.omit(this, ['encryptedPassword']);
   },
 
-  beforeCreate: function(values, cb){
-    if(!values.password || !values.confirmation || values.password != values.confirmation){
-      return cb({err: ['Password does not match confirmation.']})
+  beforeCreate: function (values, cb) {
+    if (
+      !values.password ||
+      !values.confirmation ||
+      values.password != values.confirmation
+    ) {
+      return cb({ err: ['Password does not match confirmation.'] });
     }
-    bcrypt.hash(values.password, 10, function(err, hash){
-      if(err) return cb(err)
-      values.encryptedPassword = hash
+    bcrypt.hash(values.password, 10, function (err, hash) {
+      if (err) return cb(err);
+      values.encryptedPassword = hash;
 
-      delete values.password
-      delete values.confirmation
+      delete values.password;
+      delete values.confirmation;
 
-      cb()
-    })
-  }
-}
+      cb();
+    });
+  },
+};
